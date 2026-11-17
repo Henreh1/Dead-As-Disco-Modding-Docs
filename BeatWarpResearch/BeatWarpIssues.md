@@ -123,3 +123,31 @@ The projectile warnings quoted with it occur about **2 seconds earlier**.
 
 The excerpt contains **74 abnormal-rate warning lines**, including repeated
 entries, and **three failed perfect-dodge montage jumps**.
+
+### November 17 keyboard-and-mouse recording
+
+Neah played **Neko Neko Let's Go** on `CL-35298` with a keyboard-and-mouse
+overlay. `Pagoda (4).log` reports an Intel Core i9-12900F and a GeForce RTX
+3090 Ti. Four enemy-count jumps match wave indices `1` through `4`, placing
+the start of the recording near `21:51:36.55` on the log clock.
+
+**Around `0:19.85` in wave 2**, BeatWarp logged rates from `0.001260` to
+`0.091795` over **49 ms** (lines 5204–5209). The HUD credited three hits in
+the aerial combo at about `0:19.47`, `0:19.77` and `0:20.07`. The warnings
+fall between the second and third hits. When asked about that moment,
+Neah said they did not think they felt the slowdown the other player
+described.
+
+```text
+[2026.11.17-21.51.56:393][663]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.001260. That's abnormal - consider changing the beat warp settings of this target.
+[2026.11.17-21.51.56:442][667]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.091795. That's abnormal - consider changing the beat warp settings of this target.
+```
+
+- **Around `0:07.1`**, the HUD awards **Perfect Dodge** as the log reports a
+  failed jump to `Montage_PerfectDodge` in the counterclockwise drumstick
+  montage (line 5176). The recorded run has **six** failed perfect-dodge
+  montage jumps.
+- **After the song completed**, Charlie held a kick pose while **SUCCESS**
+  was on screen. **104 of the 206** abnormal-rate warning lines in the
+  recording fall in this ending sequence, at about `2:17.9` to `2:19.0`
+  (lines 5566–5672). The logged rate fell from `0.095216` to `0.000478`.
