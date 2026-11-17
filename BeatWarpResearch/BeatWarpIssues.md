@@ -65,16 +65,98 @@ and 10537, intervening entries omitted).
 
 ## Video evidence
 
-Pending a clip with the input display, game audio and the matching log.
-Start with one short **Sugar and Spice** clip on the affected setup. Record
-one standing attack and a few slide kicks, including an attempt that feels
-late or fails to come out. Keep the usual settings for the first clip.
+### Neko Neko Let's Go
 
-For each clip, record the build, controller or keyboard and mouse, gameplay
-FPS cap and recording FPS. Add a link with the timestamps for **slide start,
-attack input, first visible kick movement and impact**. Note where the impact
-lands relative to the audible beat and include the nearest BeatWarp warnings
-from the same run.
+A 17.55-second Medal clip shows **Neko Neko Let's Go** on `CL-35298`. Around
+**0:09 into the clip**, the in-game song timer reads **1:26**. Charlie is
+already moving, then his pose changes very little for about three tenths of
+a second while an airborne enemy keeps moving. The next strike then starts.
+This is the moment the player described as feeling like Charlie got stuck in
+quicksand.
+
+The player reported that **Sugar and Spice** felt fine despite the warnings
+in its log, and that the slowdown on **Neko Neko Let's Go** was noticeable
+even during normal punches. This first clip has no input overlay or matching
+log, so the timing of the press and any BeatWarp warning during the slowdown
+are still unknown.
+
+A **Sugar and Spice** clip with the input display, game audio and a matching
+log would help identify which moves line up with the warnings in that song.
+
+### November 17 recording with a matching log
+
+`NekoNeko.mp4` is an 88-second gameplay recording on `CL-35298` with a
+controller overlay, collected separately from the CPU test. The log starts
+at `17:35:48.667` with song asset
+`PS_ED_NekoMiku_194`. Wave indices `1`, `2` and `3` match the HUD's enemy
+count jumps from zero to **5**, **8** and **7** at `0:22.78`, `0:35.18`
+and `0:57.45` in the video. These matches put the log's start about
+`0:00.65` into the recording.
+
+The player identified the first mosher in wave 2 (`WaveIndex 1`) as a spot
+where the slowdown felt noticeable. The reported warnings line up with
+**about `0:31.3` in the video**. Charlie's kick is already extended while
+the airborne mosher and effects keep moving. The controller overlay shows
+the left trigger already held. The warning sequence spans **17 ms** across
+three consecutive logged frames (lines 82–85, duplicate omitted below).
+The projectile warnings quoted with it occur about **2 seconds earlier**.
+
+```text
+[2026.11.17-17.36.19:341][356]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.008245. That's abnormal - consider changing the beat warp settings of this target.
+[2026.11.17-17.36.19:349][357]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.031870. That's abnormal - consider changing the beat warp settings of this target.
+[2026.11.17-17.36.19:358][358]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.043469. That's abnormal - consider changing the beat warp settings of this target.
+```
+
+- **Around `0:42.9` in the recording**, Charlie briefly holds his arm out
+  after a hit while the airborne enemy keeps rotating. In that window,
+  BeatWarp logged rates from `0.001144` to `0.078429` over **49 ms**
+  (lines 161–168). The warning leaves the animation target unnamed. The
+  visible pause follows a hit. An isolated attack input is still needed
+  to measure button-to-attack delay.
+- **Around `0:48` in the recording**, the player reported another odd moment.
+  Charlie briefly holds the Drummerang follow-through while its trail keeps
+  moving. At about `0:48.16` (`17:36:36.176` in the log), two projectile
+  warnings report `ArcToTarget` with no gravity (lines 177–178). The supplied
+  log has no BeatWarp rate warning between about `0:43` and `0:54` in the
+  video. The cause of this pause is still open.
+- **Around `0:38.1` and `1:00.1`**, the HUD awards **Perfect Dodge** even
+  though the aligned log shows `Montage_PerfectDodge` section jumps failing
+  for the counterclockwise drumstick dodge (lines 118 and 194). This matches
+  the montage warning seen on **Sugar and Spice** and shows that the dodge
+  can still score when that animation transition fails.
+
+```text
+[2026.11.17-17.36.30:920][739]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.001144. That's abnormal - consider changing the beat warp settings of this target.
+[2026.11.17-17.36.30:969][745]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.078429. That's abnormal - consider changing the beat warp settings of this target.
+```
+
+The excerpt contains **74 abnormal-rate warning lines**, including repeated
+entries, and **three failed perfect-dodge montage jumps**. The core-limit
+comparison still needs a baseline and a flagged run.
+
+## CPU core-limit test
+
+The player previously reported a temporary improvement after trying
+`-cpuCount=6 -threads 12`. The current test uses `-corelimit=6`, which caps
+the core counts Unreal reports to its own systems. This can affect how many
+worker threads the engine starts. [Epic's UE 5.7 performance notes](https://dev.epicgames.com/documentation/en-us/unreal-engine/pso-precaching-for-unreal-engine?application_version=5.7#performance)
+
+1. With any CPU-related launch options removed, record 20–30 seconds of
+   **Neko Neko Let's Go** with the input overlay and game audio. Include
+   normal punches and a few slide kicks. Copy `Pagoda.log` before relaunching.
+2. Fully exit the game. In **Steam > Properties > General > Launch Options**,
+   add `-corelimit=6`. Replay the same section with the same build, arena,
+   difficulty, FPS cap, controller and recording settings. Save the second
+   clip and its own `Pagoda.log`.
+3. Label both clips and logs **Baseline** or **Core limit 6**. Include the
+   build, input device, gameplay FPS cap and recording FPS. Note the clip
+   timestamps where a move felt slow. For a slide kick, mark the slide start,
+   press, first visible kick movement and impact. Compare **press to first
+   visible movement** and **first movement to impact** across both runs, and
+   check each impact against the audible beat and nearby log warnings. If the
+   difference is clear, remove the flag and repeat the baseline.
+
+The paired clips and logs are pending.
 
 ## What to check next
 
