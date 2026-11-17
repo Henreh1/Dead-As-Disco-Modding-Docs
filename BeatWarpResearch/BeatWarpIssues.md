@@ -1,7 +1,8 @@
 # BeatWarp timing issues
 
-**A gameplay log confirms abnormal playback rates.** The
-connection to the reported slide-kick delay still needs a matched recording.
+**Abnormal BeatWarp rates coincide with brief holds during attacks in the
+Neko Neko footage.** The rate warnings leave the affected animation unnamed.
+The cause of the reported slide-kick delay remains open.
 
 ## What players reported
 
@@ -12,9 +13,7 @@ timing. They give no move-specific details for the slide kick. [Fall Beats patch
 
 Brain Jar describes BeatWarping as adjusting the speed of marked animation
 sections so impacts line up with musical cues. An attack can start moving
-when the input is accepted, then take a different amount of time to connect.
-That gives us two intervals to measure in footage, from press to first
-movement and from first movement to impact. [Brain Jar's BeatWarping interview](https://80.lv/articles/interview-how-dead-as-disco-synchronizes-combat-to-player-uploaded-music)
+when the input is accepted, then take a different amount of time to connect. [Brain Jar's BeatWarping interview](https://80.lv/articles/interview-how-dead-as-disco-synchronizes-combat-to-player-uploaded-music)
 
 ## Log evidence
 
@@ -42,9 +41,8 @@ entries, including the two identical lines at the start of this example
 ```
 
 If these values are the applied animation multipliers, `0.06×` to `0.10×`
-is about **6–10% of normal playback speed**. The log gives no animation or
-actor name for these bursts. The **141 ms** example is the span between
-warnings. We still need footage to measure button-to-kick delay.
+is about **6–10% of normal playback speed**. The **141 ms** example measures
+the span between warnings.
 
 Consecutive warning frames in the bursts were usually about **8 ms apart**.
 That makes a single long frame stall during the burst a poor fit for the
@@ -76,18 +74,13 @@ quicksand.
 
 The player reported that **Sugar and Spice** felt fine despite the warnings
 in its log, and that the slowdown on **Neko Neko Let's Go** was noticeable
-even during normal punches. This first clip has no input overlay or matching
-log, so the timing of the press and any BeatWarp warning during the slowdown
-are still unknown.
-
-A **Sugar and Spice** clip with the input display, game audio and a matching
-log would help identify which moves line up with the warnings in that song.
+even during normal punches. The Medal clip has no input overlay or matching
+log.
 
 ### November 17 recording with a matching log
 
 `NekoNeko.mp4` is an 88-second gameplay recording on `CL-35298` with a
-controller overlay, collected separately from the CPU test. The log starts
-at `17:35:48.667` with song asset
+controller overlay. The log starts at `17:35:48.667` with song asset
 `PS_ED_NekoMiku_194`. Wave indices `1`, `2` and `3` match the HUD's enemy
 count jumps from zero to **5**, **8** and **7** at `0:22.78`, `0:35.18`
 and `0:57.45` in the video. These matches put the log's start about
@@ -110,9 +103,7 @@ The projectile warnings quoted with it occur about **2 seconds earlier**.
 - **Around `0:42.9` in the recording**, Charlie briefly holds his arm out
   after a hit while the airborne enemy keeps rotating. In that window,
   BeatWarp logged rates from `0.001144` to `0.078429` over **49 ms**
-  (lines 161–168). The warning leaves the animation target unnamed. The
-  visible pause follows a hit. An isolated attack input is still needed
-  to measure button-to-attack delay.
+  (lines 161–168).
 - **Around `0:48` in the recording**, the player reported another odd moment.
   Charlie briefly holds the Drummerang follow-through while its trail keeps
   moving. At about `0:48.16` (`17:36:36.176` in the log), two projectile
@@ -131,41 +122,4 @@ The projectile warnings quoted with it occur about **2 seconds earlier**.
 ```
 
 The excerpt contains **74 abnormal-rate warning lines**, including repeated
-entries, and **three failed perfect-dodge montage jumps**. The core-limit
-comparison still needs a baseline and a flagged run.
-
-## CPU core-limit test
-
-The player previously reported a temporary improvement after trying
-`-cpuCount=6 -threads 12`. The current test uses `-corelimit=6`, which caps
-the core counts Unreal reports to its own systems. This can affect how many
-worker threads the engine starts. [Epic's UE 5.7 performance notes](https://dev.epicgames.com/documentation/en-us/unreal-engine/pso-precaching-for-unreal-engine?application_version=5.7#performance)
-
-1. With any CPU-related launch options removed, record 20–30 seconds of
-   **Neko Neko Let's Go** with the input overlay and game audio. Include
-   normal punches and a few slide kicks. Copy `Pagoda.log` before relaunching.
-2. Fully exit the game. In **Steam > Properties > General > Launch Options**,
-   add `-corelimit=6`. Replay the same section with the same build, arena,
-   difficulty, FPS cap, controller and recording settings. Save the second
-   clip and its own `Pagoda.log`.
-3. Label both clips and logs **Baseline** or **Core limit 6**. Include the
-   build, input device, gameplay FPS cap and recording FPS. Note the clip
-   timestamps where a move felt slow. For a slide kick, mark the slide start,
-   press, first visible kick movement and impact. Compare **press to first
-   visible movement** and **first movement to impact** across both runs, and
-   check each impact against the audible beat and nearby log warnings. If the
-   difference is clear, remove the flag and repeat the baseline.
-
-The paired clips and logs are pending.
-
-## What to check next
-
-- **The press appears, then Charlie stays in the slide.** Check when the
-  slide-to-kick transition becomes eligible and what happens to a press that
-  arrives earlier.
-- **The kick starts promptly and then slows down.** Check which animation
-  BeatWarping is adjusting, the requested and applied rates, and the target
-  beat or song marker.
-- **The perfect-dodge sequence repeats.** Check whether
-  `Montage_PerfectDodge` is a valid section for the active drumstick montage
-  and which animation receives the following rate change.
+entries, and **three failed perfect-dodge montage jumps**.
