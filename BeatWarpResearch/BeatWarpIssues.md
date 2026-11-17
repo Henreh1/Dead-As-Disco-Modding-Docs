@@ -127,9 +127,9 @@ entries, and **three failed perfect-dodge montage jumps**.
 ### November 17 keyboard-and-mouse recording
 
 Neah played **Neko Neko Let's Go** on `CL-35298` with a keyboard-and-mouse
-overlay. `Pagoda (4).log` reports an Intel Core i9-12900F and a GeForce RTX
-3090 Ti. Four enemy-count jumps match wave indices `1` through `4`, placing
-the start of the recording near `21:51:36.55` on the log clock.
+overlay. The corresponding log reports an Intel Core i9-12900F and a
+GeForce RTX 3090 Ti. Four enemy-count jumps match wave indices `1` through
+`4`, placing the start of the recording near `21:51:36.55` on the log clock.
 
 **Around `0:19.85` in wave 2**, BeatWarp logged rates from `0.001260` to
 `0.091795` over **49 ms** (lines 5204–5209). The HUD credited three hits in
@@ -151,3 +151,41 @@ described.
   was on screen. **104 of the 206** abnormal-rate warning lines in the
   recording fall in this ending sequence, at about `2:17.9` to `2:19.0`
   (lines 5566–5672). The logged rate fell from `0.095216` to `0.000478`.
+
+### Earlier Fall Beats build
+
+Neah also recorded **Neko Neko Let's Go** on `CL-34941`. The corresponding
+log reports the same CPU and GPU. Three wave spawns match the HUD's enemy
+count jumps to **5**, **8** and **7** around `0:18.1`, `0:23.9` and `0:49.3`,
+placing the start of the recording near `22:30:11` on the log clock.
+
+- **Around `0:53.6`**, the corresponding log reports a failed jump to
+  `Montage_PerfectDodge` in the clockwise drumstick montage (line 2264).
+  The HUD credits **Perfect Dodge**, followed by **Nothing Personal**.
+- **Around `1:23.0` to `1:23.25`**, Charlie holds nearly the same kick pose
+  for about a quarter second while the effects keep moving. The corresponding
+  log reports the run's highest rate, `15.133244`, just before the hold at
+  about `1:22.9` (line 2361).
+
+**Around `1:30.05`**, the older build logged rates from `0.001047` to
+`0.072577` over **52 ms** during an aerial combo (lines 2366–2371). The HUD
+credited a hit around `1:30.05` and another around `1:30.35`.
+
+```text
+[2026.11.17-22.31.41:053][666]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.001047. That's abnormal - consider changing the beat warp settings of this target.
+[2026.11.17-22.31.41:105][670]LogPagodaBeatWarping: Warning: [BeatWarpPlayer] Set the rate to 0.072577. That's abnormal - consider changing the beat warp settings of this target.
+```
+
+| Log event | Fall Beats `CL-34941` | `CL-35298` |
+| --- | ---: | ---: |
+| BeatWarp warning lines before song completion | 87 | 102 |
+| BeatWarp warning groups before song completion | 31 | 27 |
+| BeatWarp warning lines during the results transition | 0 | 104 |
+| Failed `Montage_PerfectDodge` jumps | 8 | 6 |
+
+Warning line counts include repeated entries. Within each run, successive
+warnings at most **100 ms** apart form one group.
+
+In the older recording, Charlie returns to standing during **SUCCESS**.
+In the later recording, he holds a kick pose during most of the warning
+burst. The clips enter the results transition in different poses.
